@@ -23,7 +23,10 @@ Conversational Memory: The agent maintains a persistent chat history within a se
 Responsive UI: The chat interface is designed to be user-friendly and functional on both desktop and mobile devices.
 
 Demo
-(A professional demo is a huge plus! Consider adding a GIF or a screenshot here that shows the chatbot in action. This helps recruiters immediately understand the project without having to run the code themselves.)
+Here is a quick demonstration of the agent in action, showing a multi-part query and the formatted response.
+
+The Prompt
+The Agent's Response
 
 Technologies Used
 Backend: Python, Django
