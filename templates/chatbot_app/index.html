@@ -6,121 +6,130 @@
     <title>Gemini Agent Chatbot</title>
     <!-- Include marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .chat-container {
-            width: 500px;
-            height: 600px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .chat-header {
-            background-color: #4a90e2;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 1.4em;
-            font-weight: 600;
-        }
-        .chat-history {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-        }
-        .message {
-            margin-bottom: 15px;
-            padding: 12px 18px;
-            border-radius: 20px;
-            max-width: 80%;
-            word-wrap: break-word;
-            line-height: 1.5;
-        }
-        .user-message {
-            align-self: flex-end;
-            background-color: #dcf8c6;
-            color: #333;
-            border-bottom-right-radius: 4px;
-        }
-        .agent-message {
-            align-self: flex-start;
-            background-color: #f1f0f0;
-            color: #333;
-            border-bottom-left-radius: 4px;
-        }
-        .chat-input {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid #e0e0e0;
-            background-color: #f9f9f9;
-        }
-        .chat-input input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            margin-right: 10px;
-            font-size: 1em;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .chat-input input:focus {
-            border-color: #4a90e2;
-        }
-        .chat-input button {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 12px 20px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        .chat-input button:hover {
-            background-color: #357ae8;
-        }
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .chat-container {
+        width: 500px;
+        height: 600px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .chat-header {
+        background-color: #4a90e2;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 1.4em;
+        font-weight: 600;
+    }
+    .chat-history {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        flex-direction: column;
+    }
+    .message {
+        margin-bottom: 15px;
+        padding: 12px 18px;
+        border-radius: 20px;
+        max-width: 80%;
+        word-wrap: break-word;
+        line-height: 1.5;
+    }
+    .user-message {
+        align-self: flex-end;
+        background-color: #dcf8c6;
+        color: #333;
+        border-bottom-right-radius: 4px;
+    }
+    .agent-message {
+        align-self: flex-start;
+        background-color: #f1f0f0;
+        color: #333;
+        border-bottom-left-radius: 4px;
+    }
+    .chat-input {
+        display: flex;
+        padding: 15px;
+        border-top: 1px solid #e0e0e0;
+        background-color: #f9f9f9;
+    }
+    .chat-input input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        margin-right: 10px;
+        font-size: 1em;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    .chat-input input:focus {
+        border-color: #4a90e2;
+    }
+    .chat-input button {
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 20px;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: 600;
+        transition: background-color 0.3s;
+    }
+    .chat-input button:hover {
+        background-color: #357ae8;
+    }
 
-        /* Styles for Markdown content */
-        .agent-message strong {
-            color: #2c3e50;
-        }
-        .agent-message pre {
-            background-color: #2d2d2d;
-            color: #f8f8f2;
-            padding: 10px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: 'Fira Code', 'Courier New', monospace;
-            white-space: pre-wrap;       /* CSS3 */
-            white-space: -moz-pre-wrap;  /* Firefox */
-            white-space: -pre-wrap;      /* Opera <7 */
-            white-space: -o-pre-wrap;    /* Opera 7 */
-            word-wrap: break-word;       /* IE */
-        }
-        .agent-message code {
-            font-family: 'Fira Code', 'Courier New', monospace;
-            background-color: #e0e0e0;
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
+    /* Improved Styles for Markdown content */
+    .agent-message strong {
+        color: #2c3e50;
+        font-weight: bold;
+    }
+    .agent-message pre {
+        background-color: #f6f8fa; /* Light background */
+        color: #24292e; /* Dark text */
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: 'Courier New', monospace; /* More standard monospace font */
+        font-size: 0.9em; /* Slightly smaller for better readability */
+        line-height: 1.4;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        border: 1px solid #d1d5da; /* Subtle border */
+    }
+    .agent-message code {
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+        background-color: #e0e0e0;
+        padding: 2px 5px;
+        border-radius: 4px;
+    }
+    .agent-message ul, .agent-message ol {
+        padding-left: 20px;
+        margin-bottom: 10px;
+    }
+    .agent-message li {
+        margin-bottom: 5px;
+    }
 
-    </style>
+</style>
 </head>
 <body>
 
