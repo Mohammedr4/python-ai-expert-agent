@@ -25,8 +25,9 @@ Responsive UI: The chat interface is designed to be user-friendly and functional
 Demo
 Here is a quick demonstration of the agent in action, showing a multi-part query and the formatted response.
 
-The Prompt
-The Agent's Response
+![Chatbot Prompt](https://raw.githubusercontent.com/Mohammedr4/python-ai-expert-agent/main/images/chatbot_demo.png)
+
+![Chatbot Response](https://raw.githubusercontent.com/Mohammedr4/python-ai-expert-agent/main/images/chatbot_demo2.png)
 
 Technologies Used
 Backend: Python, Django
